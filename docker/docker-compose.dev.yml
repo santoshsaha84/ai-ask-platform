@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-dev
+    env_file:
+      - ../env/dev.env
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_dev_data:/home/node/.n8n
+    restart: unless-stopped
+
+  flowise:
+    image: flowiseai/flowise
+    container_name: flowise-dev
+    env_file:
+      - ../env/dev.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - flowise_dev_data:/root/.flowise
+    restart: unless-stopped
+
+  appsmith:
+    image: appsmith/appsmith-ce
+    container_name: appsmith-dev
+    env_file:
+      - ../env/dev.env
+    ports:
+      - "8080:80"
+    volumes:
+      - appsmith_dev_data:/appsmith-stacks
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  n8n_dev_data:
+  flowise_dev_data:
+  appsmith_dev_data:
+  ollama_data:
